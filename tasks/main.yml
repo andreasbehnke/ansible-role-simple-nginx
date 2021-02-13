@@ -6,3 +6,11 @@
     name:
       - nginx
     state: latest
+
+- name: user access to web root
+  become: yes
+  file:
+    path: '/var/www/html'
+    recurse: yes
+    owner: '{{nginx_document_root_user}}'
+    group: '{{nginx_document_root_group}}'

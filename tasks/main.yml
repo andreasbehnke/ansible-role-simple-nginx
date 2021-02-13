@@ -1,0 +1,8 @@
+---
+
+- name: install nginx with apt
+  become: yes
+  apt:
+    name:
+      - nginx
+    state: latest

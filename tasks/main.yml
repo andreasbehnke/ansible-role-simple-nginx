@@ -5,6 +5,7 @@
   apt:
     name:
       - nginx
+      - python3-passlib
     state: latest
 
 - name: user access to web root
@@ -14,3 +15,25 @@
     recurse: yes
     owner: '{{nginx_document_root_user}}'
     group: '{{nginx_document_root_group}}'
+
+- name: create password file
+  become: yes
+  community.general.htpasswd:
+    path: '/etc/nginx/passwdfile'
+    name: '{{nginx_access_user}}'
+    password: '{{nginx_access_password}}'
+    owner: root
+    group: www-data
+    mode: 0640
+  when: nginx_access_user is defined
+  notify:
+    - restart nginx
+
+- name: create default site configuration
+  become: yes
+  template:
+    dest: '/etc/nginx/sites-available/default'
+    src: 'default.j2'
+    mode: '644'
+  notify:
+    - restart nginx

@@ -6,6 +6,7 @@
     name:
       - nginx
       - python3-passlib
+      - ssl-cert
     state: latest
 
 - name: user access to web root
@@ -15,6 +16,7 @@
     recurse: yes
     owner: '{{nginx_document_root_user}}'
     group: '{{nginx_document_root_group}}'
+  when: nginx_document_root_user is defined
 
 - name: create password file
   become: yes

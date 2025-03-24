@@ -13,25 +13,27 @@ server {
 	index index.html
 
 	server_name _;
-
-    {% if nginx_access_user is defined %}
+{% if nginx_access_user is defined %}
     auth_basic "{{nginx_access_area_name}}";
     auth_basic_user_file /etc/nginx/passwdfile; 
-    {% endif %}
-
-    {% if nginx_document_root_uri is defined %}
+{% endif %}
+{% if nginx_document_root_uri is defined %}
 	location {{nginx_document_root_uri}} {
 		# First attempt to serve request as file, then
 		# as directory, then fall back to displaying a 404.
 		try_files $uri $uri/ =404;
 	}
-	{% endif %}
-
-	{% if nginx_proxy_uri is defined %}
+{% endif %}
+{% if nginx_proxy_uri is defined %}
 	location {{nginx_proxy_uri}} {
 		proxy_set_header Host $http_host;
 		proxy_pass {{nginx_proxy_service_url}};
 		proxy_read_timeout 90;
+{% if nginx_proxy_directives is defined %}
+{% for directive in nginx_proxy_directives %}
+		{{ directive.name }} {{ directive.value }};
+{% endfor %}
+{% endif %}
 	}
-	{% endif %}
+{% endif %}
 }

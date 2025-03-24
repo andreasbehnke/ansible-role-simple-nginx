@@ -14,6 +14,7 @@ The followingen variables are used:
 * nginx_document_root_uri: Optional relativ URI path to document root. If not set, no location for static content will be created.
 * nginx_proxy_uri: Optional relativ URI path to service, default is undefined and no proxy service will be installed
 * nginx_proxy_service_url: Optional service URL, default is undefined and no proxy service will be installed
+* nginx_proxy_directives: Optional list of name value objects for additional nginx directives for proxy configuration
 * nginx_access_user: Optional, basic authentication user name
 * nginx_access_password: Optional, basic authentication password
 * nginx_access_area_name: Optional, basic authentication area name
